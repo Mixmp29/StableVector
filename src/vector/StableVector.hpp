@@ -158,3 +158,10 @@ inline void StableVector<T>::reallocate()
     first_free = dest;
     cap = elements + newcapacity;
 }
+
+template <typename T>
+inline void StableVector<T>::push_back(T&& s)
+{
+    chk_n_alloc();
+    new ((void*)first_free++) T(std::move(s));
+}
