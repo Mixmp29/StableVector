@@ -6,14 +6,14 @@
 template <typename T>
 class StableVector {
 public:
-    Vec() = default;
-    Vec(const Vec&);
-    Vec(Vec&&) noexcept;
-    Vec& operator=(const Vec&);
-    Vec& operator=(Vec&&) noexcept;
-    ~Vec() noexcept;
+    StableVector() = default;
+    StableVector(const StableVector&);
+    StableVector(StableVector&&) noexcept;
+    StableVector& operator=(const StableVector&);
+    StableVector& operator=(StableVector&&) noexcept;
+    ~StableVector() noexcept;
 
-    Vec& operator=(std::initializer_list<T>);
+    StableVector& operator=(std::initializer_list<T>);
     void push_back(const T&);
     void push_back(T&&);
     template <class... Args>
