@@ -3,4 +3,11 @@
 #include <cmath>
 #include <iostream>
 
-class TimeUnit {};
+template <typename T>
+class StableVector {
+public:
+private:
+    T* elements = nullptr;
+    T* first_free = nullptr;
+    T* cap = nullptr;
+};
