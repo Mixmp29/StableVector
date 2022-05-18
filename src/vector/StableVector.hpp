@@ -165,3 +165,11 @@ inline void StableVector<T>::push_back(T&& s)
     chk_n_alloc();
     new ((void*)first_free++) T(std::move(s));
 }
+
+template <typename T>
+template <class... Args>
+inline void StableVector<T>::emplace_back(Args&&... args)
+{
+    chk_n_alloc();
+    new ((void*)first_free++) T(std::forward<Args>(args)...);
+}
