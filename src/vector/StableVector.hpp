@@ -32,6 +32,15 @@ public:
         return elements == 0;
     }
 
+    T& operator[](size_t n)
+    {
+        return elements[n];
+    }
+    const T& operator[](size_t n) const
+    {
+        return elements[n];
+    }
+
 private:
     T* elements = nullptr;
     T* first_free = nullptr;
