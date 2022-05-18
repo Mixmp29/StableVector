@@ -19,6 +19,19 @@ public:
     template <class... Args>
     void emplace_back(Args&&...);
 
+    size_t size() const
+    {
+        return first_free - elements;
+    }
+    size_t capacity() const
+    {
+        return cap - elements;
+    }
+    bool empty() const
+    {
+        return elements == 0;
+    }
+
 private:
     T* elements = nullptr;
     T* first_free = nullptr;
