@@ -100,3 +100,17 @@ inline void StableVector<T>::free()
         ((T*)--p)->~T();
     }
 }
+
+template <typename T>
+inline StableVector<T>& StableVector<T>::operator=(std::initializer_list<T> il)
+{
+    // copy allocates space and copies elements from the given range
+    auto data = alloc_n_copy(il.begin(), il.end());
+
+    free(); // destroy the elements in this object and free the space
+
+    elements = data.first; // update data members to point to the new space
+    first_free = cap = data.second;
+
+    return *this;
+}
