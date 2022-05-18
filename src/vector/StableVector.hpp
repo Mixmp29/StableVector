@@ -41,6 +41,15 @@ public:
         return elements[n];
     }
 
+    T* begin() const
+    {
+        return elements;
+    }
+    T* end() const
+    {
+        return first_free;
+    }
+
 private:
     T* elements = nullptr;
     T* first_free = nullptr;
