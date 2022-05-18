@@ -77,3 +77,10 @@ inline std::pair<T*, T*> StableVector<T>::alloc_n_copy(const T* b, const T* e)
     auto data = new T[e - b];
     return {data, uninitialized_copy(b, e, data)};
 }
+
+template <typename T>
+inline StableVector<T>::StableVector(StableVector&& s) noexcept
+    : elements(s.elements), first_free(s.first_free), cap(s.cap)
+{
+    s.elements = s.first_free = s.cap = nullptr;
+}
