@@ -138,3 +138,23 @@ inline StableVector<T>& StableVector<T>::operator=(const StableVector& rhs)
     first_free = cap = data.second;
     return *this;
 }
+
+template <typename T>
+inline void StableVector<T>::reallocate()
+{
+    auto newcapacity = size() ? 2 * size() : 2;
+
+    auto first = new T[newcapacity];
+    auto dest = first;
+    auto elem = elements;
+
+    for (size_t i = 0; i < size(); i++) {
+        new ((void*)dest++) T(std::move(*elem++));
+    }
+
+    free();
+
+    elements = first;
+    first_free = dest;
+    cap = elements + newcapacity;
+}
