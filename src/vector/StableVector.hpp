@@ -84,3 +84,12 @@ inline StableVector<T>::StableVector(StableVector&& s) noexcept
 {
     s.elements = s.first_free = s.cap = nullptr;
 }
+
+template <typename T>
+inline StableVector<T>::StableVector(const StableVector& s)
+{
+    // call copy to allocate exactly as many elements as in s
+    auto newdata = alloc_n_copy(s.begin(), s.end());
+    elements = newdata.first;
+    first_free = cap = newdata.second;
+}
