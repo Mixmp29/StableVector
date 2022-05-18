@@ -51,6 +51,15 @@ public:
     }
 
 private:
+    void chk_n_alloc()
+    {
+        if (first_free == cap)
+            reallocate();
+    }
+    std::pair<T*, T*> alloc_n_copy(const T*, const T*);
+    void free();
+    void reallocate();
+
     T* elements = nullptr;
     T* first_free = nullptr;
     T* cap = nullptr;
