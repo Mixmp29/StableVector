@@ -64,3 +64,9 @@ private:
     T* first_free = nullptr;
     T* cap = nullptr;
 };
+
+template <typename T>
+inline StableVector<T>::~StableVector() noexcept
+{
+    free();
+}
