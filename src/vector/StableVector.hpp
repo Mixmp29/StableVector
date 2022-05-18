@@ -128,3 +128,13 @@ inline StableVector<T>& StableVector<T>::operator=(StableVector&& rhs) noexcept
 
     return *this;
 }
+
+template <typename T>
+inline StableVector<T>& StableVector<T>::operator=(const StableVector& rhs)
+{
+    auto data = alloc_n_copy(rhs.begin(), rhs.end());
+    free();
+    elements = data.first;
+    first_free = cap = data.second;
+    return *this;
+}
