@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 template <typename T>
 class StableVector {
@@ -80,7 +81,7 @@ template <typename T>
 inline std::pair<T*, T*> StableVector<T>::alloc_n_copy(const T* b, const T* e)
 {
     auto data = new T[e - b];
-    return {data, uninitialized_copy(b, e, data)};
+    return {data, std::uninitialized_copy(b, e, data)};
 }
 
 template <typename T>
