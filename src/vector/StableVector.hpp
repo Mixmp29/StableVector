@@ -50,6 +50,8 @@ public:
         return first_free;
     }
 
+    void reserve(size_t n);
+
 private:
     void chk_n_alloc()
     {
@@ -99,6 +101,7 @@ inline void StableVector<T>::free()
     for (auto p = first_free; p != elements;) {
         ((T*)--p)->~T();
     }
+    delete[] elements;
 }
 
 template <typename T>
@@ -157,6 +160,26 @@ inline void StableVector<T>::reallocate()
     elements = first;
     first_free = dest;
     cap = elements + newcapacity;
+}
+
+template <typename T>
+inline void StableVector<T>::reserve(size_t n)
+{
+    if (n > capacity()) {
+        auto first = new T[n];
+        auto dest = first;
+        auto elem = elements;
+
+        for (size_t i = 0; i < size(); i++) {
+            new ((void*)dest++) T(std::move(*elem++));
+        }
+
+        free();
+
+        elements = first;
+        first_free = dest;
+        cap = elements + n;
+    }
 }
 
 template <typename T>
