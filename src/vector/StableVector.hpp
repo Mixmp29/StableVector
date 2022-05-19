@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 
+namespace StabVec {
+
 template <typename T>
 class StableVector {
 public:
@@ -227,3 +229,5 @@ inline void StableVector<T>::emplace_back(Args&&... args)
     chk_n_alloc();
     new ((void*)first_free++) T(std::forward<Args>(args)...);
 }
+
+} // namespace StabVec
