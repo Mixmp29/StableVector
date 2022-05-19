@@ -198,8 +198,8 @@ inline void StableVector<T>::reserve(size_t n)
 template <typename T>
 inline void StableVector<T>::resize(size_t n, T val)
 {
-    if (n <= size()) {
-        while (n > size())
+    if (n < size()) {
+        while (n < size())
             first_free--;
     } else {
         while (n != size())
