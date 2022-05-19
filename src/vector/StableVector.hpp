@@ -10,6 +10,7 @@ public:
     StableVector() = default;
     StableVector(const StableVector&);
     StableVector(StableVector&&) noexcept;
+    StableVector(std::initializer_list<T>);
     StableVector& operator=(const StableVector&);
     StableVector& operator=(StableVector&&) noexcept;
     ~StableVector() noexcept;
@@ -97,6 +98,17 @@ inline StableVector<T>::StableVector(const StableVector& s)
     auto newdata = alloc_n_copy(s.begin(), s.end());
     elements = newdata.first;
     first_free = cap = newdata.second;
+}
+
+template <typename T>
+inline StableVector<T>::StableVector(std::initializer_list<T> il)
+{
+    auto data = alloc_n_copy(il.begin(), il.end());
+
+    free();
+
+    elements = data.first;
+    first_free = cap = data.second;
 }
 
 template <typename T>
