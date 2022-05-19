@@ -20,6 +20,8 @@ public:
     void push_back(T&&);
     template <class... Args>
     void emplace_back(Args&&...);
+    void reserve(size_t n);
+    void resize(size_t n, T val = T());
 
     size_t size() const
     {
@@ -53,9 +55,6 @@ public:
     {
         return first_free;
     }
-
-    void reserve(size_t n);
-    void resize(size_t n, T val = T());
 
 private:
     void chk_n_alloc()
