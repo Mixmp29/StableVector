@@ -34,7 +34,9 @@ public:
 
     T& operator[](size_t n)
     {
-        return elements[n];
+        if (n <= size())
+            return elements[n];
+        return elements[1];
     }
     const T& operator[](size_t n) const
     {
@@ -51,6 +53,7 @@ public:
     }
 
     void reserve(size_t n);
+    void resize(size_t n, T val = T());
 
 private:
     void chk_n_alloc()
@@ -98,9 +101,6 @@ inline StableVector<T>::StableVector(const StableVector& s)
 template <typename T>
 inline void StableVector<T>::free()
 {
-    for (auto p = first_free; p != elements;) {
-        ((T*)--p)->~T();
-    }
     delete[] elements;
 }
 
@@ -180,6 +180,25 @@ inline void StableVector<T>::reserve(size_t n)
         first_free = dest;
         cap = elements + n;
     }
+}
+
+template <typename T>
+inline void StableVector<T>::resize(size_t n, T val)
+{
+    if (n <= size()) {
+        while (n > size())
+            first_free--;
+    } else {
+        while (n != size())
+            push_back(val);
+    }
+}
+
+template <typename T>
+inline void StableVector<T>::push_back(const T& s)
+{
+    chk_n_alloc();
+    new ((void*)first_free++) T(s);
 }
 
 template <typename T>
