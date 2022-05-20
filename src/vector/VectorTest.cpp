@@ -3,15 +3,27 @@
 #include <gtest/gtest.h>
 
 #include <string>
+#include <utility>
+#include <vector>
 
 namespace StabVec {
 
-TEST(TimeSuite, PushBack)
+/* template <typename T, typename U>
+void catch_error(std::vector<T>& errors, U func)
 {
-    StableVector<int> vec5;
-    vec5.push_back(1);
-    int expect = 1;
-    int result = vec5[0];
+    try {
+        func;
+    } catch (const std::out_of_range& e) {
+        std::cerr << e.what() << '\n';
+        errors.emplace_back();
+    }
+} */
+
+TEST(TimeSuite, TestSize)
+{
+    const StableVector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8};
+    const int expect = 8;
+    const int result = vec.size();
     EXPECT_EQ(expect, result);
 }
 
