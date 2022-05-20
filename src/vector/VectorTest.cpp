@@ -45,4 +45,12 @@ TEST(TimeSuite, TestEmpty)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestSquareBrackets)
+{
+    const StableVector<int> vec2 = {1, 2};
+    const int expect = 2;
+    const int result = vec2[1];
+    EXPECT_EQ(expect, result);
+}
+
 } // namespace StabVec
