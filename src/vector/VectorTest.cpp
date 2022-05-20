@@ -27,4 +27,12 @@ TEST(TimeSuite, TestSize)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestCpapcity)
+{
+    const StableVector<int> vec = {1, 2, 3, 4, 5, 6};
+    const int expect = 6;
+    const int result = vec.capacity();
+    EXPECT_EQ(expect, result);
+}
+
 } // namespace StabVec
