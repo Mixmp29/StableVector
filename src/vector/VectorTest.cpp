@@ -2,23 +2,13 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace StabVec {
-
-template <typename T, typename U>
-void catch_error(std::string& error, U func)
-{
-    try {
-        return func;
-    } catch (const std::out_of_range& e) {
-        std::cerr << e.what() << '\n';
-        error = func.what();
-    }
-}
 
 TEST(TimeSuite, TestSize)
 {
@@ -47,9 +37,23 @@ TEST(TimeSuite, TestEmpty)
 
 TEST(TimeSuite, TestSquareBrackets)
 {
-    const StableVector<int> vec2 = {1, 2};
+    const StableVector<int> vec = {1, 2};
     const int expect = 2;
-    const int result = vec2[1];
+    const int result = vec[1];
+    EXPECT_EQ(expect, result);
+}
+
+TEST(TimeSuite, OutOfRange)
+{
+    const StableVector<int> vec = {1, 2};
+    const std::string expect = "Out of bounds";
+    const int index = 5;
+    std::string result;
+    try {
+        vec[index];
+    } catch (const std::out_of_range& err) {
+        result = err.what();
+    }
     EXPECT_EQ(expect, result);
 }
 
