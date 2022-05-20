@@ -57,4 +57,15 @@ TEST(TimeSuite, OutOfRange)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestBeginEnd)
+{
+    const StableVector<std::string> vec = {"test ", "string ", "here"};
+    const std::string expect = "test string here";
+    std::string result;
+    for (auto* i = vec.begin(); i < vec.end(); ++i) {
+        result += *i;
+    }
+    EXPECT_EQ(expect, result);
+}
+
 } // namespace StabVec
