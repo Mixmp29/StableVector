@@ -42,11 +42,15 @@ public:
     {
         if (n <= size())
             return elements[n];
-        return elements[1];
+        else
+            throw std::out_of_range("Out of bounds");
     }
     const T& operator[](size_t n) const
     {
-        return elements[n];
+        if (n <= size())
+            return elements[n];
+        else
+            throw std::out_of_range("Out of bounds");
     }
 
     T* begin() const
@@ -154,6 +158,21 @@ inline StableVector<T>& StableVector<T>::operator=(const StableVector& rhs)
     elements = data.first;
     first_free = cap = data.second;
     return *this;
+}
+
+template <typename T>
+inline bool operator==(const StableVector<T>& lhs, const StableVector<T>& rhs)
+{
+    if (lhs.size() == rhs.size()) {
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] == rhs[i])
+                continue;
+            else
+                return false;
+    } else
+        return false;
+
+    return true;
 }
 
 template <typename T>
