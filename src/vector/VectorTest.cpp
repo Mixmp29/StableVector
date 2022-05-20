@@ -68,4 +68,17 @@ TEST(TimeSuite, TestBeginEnd)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestPushBack)
+{
+    StableVector<int> vec;
+    const int a = 5;
+    const int b = 7;
+    const int c = 3;
+    vec.push_back(a);
+    vec.push_back(b);
+    vec.push_back(c);
+    const StableVector expect = {5, 7, 3};
+    EXPECT_EQ(expect, vec);
+}
+
 } // namespace StabVec
