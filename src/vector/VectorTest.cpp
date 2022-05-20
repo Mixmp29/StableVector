@@ -35,4 +35,13 @@ TEST(TimeSuite, TestCpapcity)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestEmpty)
+{
+    StableVector<int> vec1;
+    const StableVector<int> vec2 = {1, 2};
+    std::pair<bool, bool> expect(true, false);
+    std::pair<bool, bool> result(vec1.empty(), vec2.empty());
+    EXPECT_EQ(expect, result);
+}
+
 } // namespace StabVec
