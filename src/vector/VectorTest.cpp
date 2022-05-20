@@ -10,13 +10,13 @@
 namespace StabVec {
 
 template <typename T, typename U>
-void catch_error(std::vector<T>& errors, U func)
+void catch_error(std::string& error, U func)
 {
     try {
         return func;
     } catch (const std::out_of_range& e) {
         std::cerr << e.what() << '\n';
-        errors.emplace_back(func.what());
+        error = func.what();
     }
 }
 
