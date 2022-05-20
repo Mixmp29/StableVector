@@ -2,22 +2,23 @@
 
 #include <gtest/gtest.h>
 
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace StabVec {
 
-/* template <typename T, typename U>
+template <typename T, typename U>
 void catch_error(std::vector<T>& errors, U func)
 {
     try {
-        func;
+        return func;
     } catch (const std::out_of_range& e) {
         std::cerr << e.what() << '\n';
-        errors.emplace_back();
+        errors.emplace_back(func.what());
     }
-} */
+}
 
 TEST(TimeSuite, TestSize)
 {
