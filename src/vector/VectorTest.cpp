@@ -94,4 +94,17 @@ TEST(TimeSuite, TestReserve)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestResize)
+{
+    const int a = 1;
+    const int b = 2;
+    const int c = 3;
+    StableVector vec = {a, b, c};
+    const size_t new_size = 8;
+    vec.resize(new_size);
+    const size_t expect = 8;
+    const size_t result = vec.size();
+    EXPECT_EQ(expect, result);
+}
+
 } // namespace StabVec
