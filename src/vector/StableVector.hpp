@@ -178,14 +178,6 @@ inline void StableVector<T>::push_back(T&& s)
 }
 
 template <typename T>
-template <class... Args>
-inline void StableVector<T>::emplace_back(Args&&... args)
-{
-    chk_n_alloc();
-    new ((void*)first_free++) T(std::forward<Args>(args)...);
-}
-
-template <typename T>
 inline void StableVector<T>::reserve(size_t n)
 {
     if (n > capacity()) {
