@@ -69,6 +69,11 @@ private:
         {
         }
 
+        T& operator*()
+        {
+            return ptr->elements;
+        }
+
     private:
         T* ptr;
     };
