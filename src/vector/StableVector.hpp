@@ -79,6 +79,19 @@ private:
             return ptr->elements;
         }
 
+        Iter& operator++()
+        {
+            ptr = ++elements;
+            return *this;
+        }
+
+        Iter& operator++(int)
+        {
+            Iter tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
     private:
         T* ptr;
     };
