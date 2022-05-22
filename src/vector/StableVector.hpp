@@ -9,6 +9,49 @@ namespace StabVec {
 
 template <typename T>
 class StableVector {
+private:
+    struct Iter {
+        Iter(T* pointer) : ptr(pointer)
+        {
+        }
+
+        T& operator*()
+        {
+            return ptr->elements;
+        }
+
+        T* operator->() const
+        {
+            return ptr->elements;
+        }
+
+        Iter& operator++()
+        {
+            ptr = *this + 1;
+            return *this;
+        }
+
+        Iter& operator++(int)
+        {
+            Iter tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
+        friend bool operator==(const Iter& lhs, const Iter& rhs)
+        {
+            return lhs.ptr == rhs.ptr;
+        }
+
+        friend bool operator!=(const Iter& lhs, const Iter& rhs)
+        {
+            return lhs.ptr != rhs.ptr;
+        }
+
+    private:
+        T* ptr;
+    };
+
 public:
     StableVector() = default;
     StableVector(const StableVector&);
@@ -64,48 +107,6 @@ public:
     }
 
 private:
-    struct Iter {
-        Iter(T* pointer) : ptr(pointer)
-        {
-        }
-
-        T& operator*()
-        {
-            return ptr->elements;
-        }
-
-        T* operator->() const
-        {
-            return ptr->elements;
-        }
-
-        Iter& operator++()
-        {
-            ptr = *this + 1;
-            return *this;
-        }
-
-        Iter& operator++(int)
-        {
-            Iter tmp = *this;
-            ++(*this);
-            return tmp;
-        }
-
-        friend bool operator==(const Iter& lhs, const Iter& rhs)
-        {
-            return lhs.ptr == rhs.ptr;
-        }
-
-        friend bool operator!=(const Iter& lhs, const Iter& rhs)
-        {
-            return lhs.ptr != rhs.ptr;
-        }
-
-    private:
-        T* ptr;
-    };
-
     void chk_n_alloc()
     {
         if (first_free == cap)
