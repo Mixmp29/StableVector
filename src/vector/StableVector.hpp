@@ -64,6 +64,15 @@ public:
     }
 
 private:
+    struct Iter {
+        Iter(T* pointer) : ptr(pointer)
+        {
+        }
+
+    private:
+        T* ptr;
+    };
+
     void chk_n_alloc()
     {
         if (first_free == cap)
