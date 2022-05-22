@@ -74,6 +74,11 @@ private:
             return ptr->elements;
         }
 
+        T* operator->() const
+        {
+            return ptr->elements;
+        }
+
     private:
         T* ptr;
     };
