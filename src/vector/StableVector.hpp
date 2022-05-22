@@ -92,6 +92,16 @@ private:
             return tmp;
         }
 
+        bool operator==(const Iter& lhs, const Iter& rhs)
+        {
+            return lhs.ptr == rhs.ptr;
+        }
+
+        bool operator!=(const Iter& lhs, const Iter& rhs)
+        {
+            return lhs.ptr != rhs.ptr;
+        }
+
     private:
         T* ptr;
     };
