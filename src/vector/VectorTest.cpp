@@ -187,4 +187,15 @@ TEST(TimeSuite, TestResizeSmaller)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestVectors)
+{
+    StableVector<StableVector<int>> vec1;
+    StableVector<StableVector<int>> vec2;
+    vec1.push_back({1, 2, 3});
+    vec1.push_back({3, 5, 8});
+    vec2.push_back({1, 2, 3});
+    vec2.push_back({3, 5, 8});
+    EXPECT_EQ(vec1, vec2);
+}
+
 } // namespace StabVec
