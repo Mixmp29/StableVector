@@ -10,14 +10,15 @@ namespace StabVec {
 template <typename T>
 class StableVector {
 public:
-    struct Iterator {
+    template <typename U>
+    struct GenericIterator {
         using iterator_category = std::random_access_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = T;
         using pointer = const T*;
         using reference = T&;
 
-        Iterator(StableVector<T>* pointer, size_t i) : ptr(pointer), index(i)
+        GenericIterator(U* pointer, size_t i) : ptr(pointer), index(i)
         {
         }
 
@@ -31,88 +32,95 @@ public:
             return (*ptr)[index];
         }
 
-        Iterator& operator++()
+        GenericIterator& operator++()
         {
             ++index;
             return *this;
         }
 
-        Iterator& operator++(int)
+        GenericIterator& operator++(int)
         {
-            Iterator tmp = *this;
+            GenericIterator tmp = *this;
             ++index;
             return tmp;
         }
 
-        Iterator& operator--()
+        GenericIterator& operator--()
         {
             --index;
             return *this;
         }
 
-        Iterator& operator--(int)
+        GenericIterator& operator--(int)
         {
-            Iterator tmp = *this;
+            GenericIterator tmp = *this;
             --index;
             return tmp;
         }
 
-        Iterator& operator+=(size_t i)
+        GenericIterator& operator+=(size_t i)
         {
             index += i;
             return *this;
         }
 
-        Iterator operator+(size_t i)
+        GenericIterator operator+(size_t i)
         {
-            Iterator tmp = *this;
+            GenericIterator tmp = *this;
             tmp += i;
             return tmp;
         }
 
-        Iterator& operator-=(size_t i)
+        GenericIterator& operator-=(size_t i)
         {
             index -= i;
             return *this;
         }
 
-        Iterator operator-(size_t i)
+        GenericIterator operator-(size_t i)
         {
-            Iterator tmp = *this;
+            GenericIterator tmp = *this;
             tmp -= i;
             return tmp;
         }
 
-        friend bool operator==(const Iterator& lhs, const Iterator& rhs)
+        friend bool
+        operator==(const GenericIterator& lhs, const GenericIterator& rhs)
         {
             return lhs.index == rhs.index;
         }
 
-        friend bool operator!=(const Iterator& lhs, const Iterator& rhs)
+        friend bool
+        operator!=(const GenericIterator& lhs, const GenericIterator& rhs)
         {
             return lhs.index != rhs.index;
         }
 
-        friend bool operator<(const Iterator& lhs, const Iterator& rhs)
+        friend bool
+        operator<(const GenericIterator& lhs, const GenericIterator& rhs)
         {
             return lhs.index < rhs.index;
         }
 
-        friend bool operator>(const Iterator& lhs, const Iterator& rhs)
+        friend bool
+        operator>(const GenericIterator& lhs, const GenericIterator& rhs)
         {
             return lhs.index > rhs.index;
         }
 
         friend difference_type
-        operator-(const Iterator& lhs, const Iterator& rhs)
+        operator-(const GenericIterator& lhs, const GenericIterator& rhs)
         {
             return lhs.index - rhs.index;
         }
 
     private:
-        StableVector<T>* ptr;
+        U* ptr;
         size_t index;
     };
+
+    using Iterator = GenericIterator<StableVector<T>>;
+    using ConstIterator = GenericIterator<const StableVector<T>>;
 
     StableVector() = default;
     StableVector(const StableVector&);
@@ -166,6 +174,15 @@ public:
     {
         return Iterator(this, size());
     }
+
+    /*     ConstIterator begin()
+        {
+            return ConstIterator(this, 0);
+        }
+        ConstIterator end()
+        {
+            return ConstIterator(this, size());
+        } */
 
 private:
     void chk_n_alloc()
