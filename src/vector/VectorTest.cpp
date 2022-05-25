@@ -11,7 +11,7 @@
 
 namespace StabVec {
 
-TEST(TimeSuite, TestSize)
+TEST(Vector, TestSize)
 {
     const StableVector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8};
     const int expect = 8;
@@ -19,7 +19,7 @@ TEST(TimeSuite, TestSize)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestCpapcity)
+TEST(Vector, TestCpapcity)
 {
     const StableVector<int> vec = {1, 2, 3, 4, 5, 6};
     const int expect = 6;
@@ -27,7 +27,7 @@ TEST(TimeSuite, TestCpapcity)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestEmpty)
+TEST(Vector, TestEmpty)
 {
     StableVector<int> vec1;
     const StableVector<int> vec2 = {1, 2};
@@ -36,7 +36,7 @@ TEST(TimeSuite, TestEmpty)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestSquareBrackets)
+TEST(Vector, TestSquareBrackets)
 {
     const StableVector<int> vec = {1, 2};
     const int expect = 2;
@@ -44,7 +44,7 @@ TEST(TimeSuite, TestSquareBrackets)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, OutOfRange)
+TEST(Vector, OutOfRange)
 {
     const StableVector<int> vec = {1, 2};
     const std::string expect = "Out of bounds";
@@ -58,7 +58,7 @@ TEST(TimeSuite, OutOfRange)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestBeginEnd)
+TEST(Vector, TestBeginEnd)
 {
     StableVector<std::string> vec = {"test ", "string ", "here"};
     const std::string expect = "test string here";
@@ -69,7 +69,7 @@ TEST(TimeSuite, TestBeginEnd)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestSort)
+TEST(Vector, TestSort)
 {
     const int a = 6;
     const int b = 2;
@@ -81,7 +81,7 @@ TEST(TimeSuite, TestSort)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestSort2)
+TEST(Vector, TestSort2)
 {
     const int a = 6;
     const int b = 2;
@@ -94,7 +94,7 @@ TEST(TimeSuite, TestSort2)
     EXPECT_EQ(expect, result1);
 }
 
-TEST(TimeSuite, TestSwap)
+TEST(Vector, TestSwap)
 {
     const int a = 6;
     const int b = 2;
@@ -107,7 +107,7 @@ TEST(TimeSuite, TestSwap)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestFor)
+TEST(Vector, TestFor)
 {
     const int a = 6;
     const int b = 2;
@@ -122,7 +122,7 @@ TEST(TimeSuite, TestFor)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestFind)
+TEST(Vector, TestFind)
 {
     const int a = 6;
     const int b = 2;
@@ -134,7 +134,7 @@ TEST(TimeSuite, TestFind)
     EXPECT_EQ(expect, *result);
 }
 
-TEST(TimeSuite, TestPushBack)
+TEST(Vector, TestPushBack)
 {
     StableVector<int> vec;
     const int a = 5;
@@ -147,7 +147,7 @@ TEST(TimeSuite, TestPushBack)
     EXPECT_EQ(expect, vec);
 }
 
-TEST(TimeSuite, TestReserve)
+TEST(Vector, TestReserve)
 {
     const int a = 1;
     const int b = 2;
@@ -160,7 +160,7 @@ TEST(TimeSuite, TestReserve)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestResize)
+TEST(Vector, TestResize)
 {
     const int a = 1;
     const int b = 2;
@@ -173,7 +173,7 @@ TEST(TimeSuite, TestResize)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestResizeSmaller)
+TEST(Vector, TestResizeSmaller)
 {
     const int a = 1;
     const int b = 2;
@@ -187,7 +187,7 @@ TEST(TimeSuite, TestResizeSmaller)
     EXPECT_EQ(expect, result);
 }
 
-TEST(TimeSuite, TestVectors)
+TEST(Vector, TestVectors)
 {
     StableVector<StableVector<int>> vec1;
     StableVector<StableVector<int>> vec2;
