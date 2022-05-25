@@ -81,6 +81,19 @@ TEST(TimeSuite, TestSort)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestSwap)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    StableVector<int> result = {a, b, c, d};
+    const StableVector<int> expect = {6, 0, 1, 2};
+    std::cout << "size(): " << result.size() << std::endl;
+    std::swap(result[1], result[3]);
+    EXPECT_EQ(expect, result);
+}
+
 TEST(TimeSuite, TestPushBack)
 {
     StableVector<int> vec;
