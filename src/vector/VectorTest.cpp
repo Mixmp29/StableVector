@@ -94,6 +94,21 @@ TEST(TimeSuite, TestSwap)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestFor)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    StableVector<int> result = {a, b, c, d};
+    StableVector<int> expect;
+    for (auto& i : result) {
+        expect.push_back(i);
+        std::cout << i << std::endl;
+    }
+    EXPECT_EQ(expect, result);
+}
+
 TEST(TimeSuite, TestPushBack)
 {
     StableVector<int> vec;
