@@ -109,6 +109,18 @@ TEST(TimeSuite, TestFor)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestFind)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    StableVector<int> vec = {a, b, c, d};
+    const int expect = 6;
+    auto result = std::find(vec.begin(), vec.end() - 1, expect);
+    EXPECT_EQ(expect, *result);
+}
+
 TEST(TimeSuite, TestPushBack)
 {
     StableVector<int> vec;
