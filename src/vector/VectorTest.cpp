@@ -134,6 +134,21 @@ TEST(Vector, TestFor)
     EXPECT_EQ(expect, result);
 }
 
+TEST(Vector, ConstTestFor)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    const StableVector<int> result = {a, b, c, d};
+    StableVector<int> expect;
+    for (auto& i : result) {
+        expect.push_back(i);
+        std::cout << i << std::endl;
+    }
+    EXPECT_EQ(expect, result);
+}
+
 TEST(Vector, TestFind)
 {
     const int a = 6;
