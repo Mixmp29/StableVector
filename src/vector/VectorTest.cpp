@@ -27,6 +27,18 @@ TEST(Vector, TestCpapcity)
     EXPECT_EQ(expect, result);
 }
 
+TEST(Vector, TestCpapcity2)
+{
+    const int a = 1;
+    const int b = 2;
+    const int c = 3;
+    StableVector<int> vec = {a, b};
+    vec.push_back(c);
+    const int expect = 4;
+    const int result = vec.capacity();
+    EXPECT_EQ(expect, result);
+}
+
 TEST(Vector, TestEmpty)
 {
     StableVector<int> vec1;
