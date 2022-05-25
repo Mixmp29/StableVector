@@ -14,9 +14,9 @@ public:
     struct GenericIterator {
         using iterator_category = std::random_access_iterator_tag;
         using difference_type = std::ptrdiff_t;
-        using value_type = T;
-        using pointer = const T*;
-        using reference = T&;
+        using value_type = U;
+        using pointer = U*;
+        using reference = U&;
 
         GenericIterator(U* pointer, size_t i) : ptr(pointer), index(i)
         {
@@ -24,12 +24,12 @@ public:
 
         reference operator*()
         {
-            return (*ptr)[index];
+            return (ptr)[index];
         }
 
         pointer operator->() const
         {
-            return (*ptr)[index];
+            return (ptr)[index];
         }
 
         GenericIterator& operator++()
@@ -119,8 +119,8 @@ public:
         size_t index;
     };
 
-    using Iterator = GenericIterator<StableVector<T>>;
-    using ConstIterator = GenericIterator<const StableVector<T>>;
+    using Iterator = GenericIterator<T>;
+    using ConstIterator = GenericIterator<const T>;
 
     StableVector() = default;
     StableVector(const StableVector&);
@@ -168,21 +168,21 @@ public:
 
     Iterator begin()
     {
-        return Iterator(this, 0);
+        return Iterator(elements, 0);
     }
     Iterator end()
     {
-        return Iterator(this, size());
+        return Iterator(elements, size());
     }
 
-    /*     ConstIterator begin()
-        {
-            return ConstIterator(this, 0);
-        }
-        ConstIterator end()
-        {
-            return ConstIterator(this, size());
-        } */
+    ConstIterator begin() const
+    {
+        return ConstIterator(elements, 0);
+    }
+    ConstIterator end() const
+    {
+        return ConstIterator(elements, size());
+    }
 
 private:
     void chk_n_alloc()
