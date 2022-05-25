@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -59,12 +60,24 @@ TEST(TimeSuite, OutOfRange)
 
 TEST(TimeSuite, TestBeginEnd)
 {
-    const StableVector<std::string> vec = {"test ", "string ", "here"};
+    StableVector<std::string> vec = {"test ", "string ", "here"};
     const std::string expect = "test string here";
     std::string result;
-    for (auto* i = vec.begin(); i < vec.end(); ++i) {
+    for (auto i = vec.begin(); i < vec.end(); ++i) {
         result += *i;
     }
+    EXPECT_EQ(expect, result);
+}
+
+TEST(TimeSuite, TestSort)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    StableVector<int> result = {a, b, c, d};
+    const StableVector<int> expect = {0, 1, 2, 6};
+    std::sort(result.begin(), result.end());
     EXPECT_EQ(expect, result);
 }
 
