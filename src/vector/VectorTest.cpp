@@ -201,13 +201,31 @@ TEST(Vector, TestResizeSmaller)
 
 TEST(Vector, TestVectors)
 {
+    const int a = 1;
+    const int b = 2;
+    const int c = 3;
+    const int d = 4;
     StableVector<StableVector<int>> vec1;
     StableVector<StableVector<int>> vec2;
-    vec1.push_back({1, 2, 3});
-    vec1.push_back({3, 5, 8});
-    vec2.push_back({1, 2, 3});
-    vec2.push_back({3, 5, 8});
+    vec1.push_back({a, b, c});
+    vec1.push_back({c, d, c});
+    vec2.push_back({a, b, c});
+    vec2.push_back({c, d, c});
     EXPECT_EQ(vec1, vec2);
+}
+
+TEST(Vector, TestVectors2)
+{
+    const int a = 1;
+    const int b = 2;
+    const int c = 3;
+    const int d = 4;
+    StableVector<StableVector<int>> vec1;
+    const StableVector<int> vec2 = {a, b, c, c, d};
+    vec1.push_back({a, b, c});
+    vec1[0].push_back(c);
+    vec1[0].push_back(d);
+    EXPECT_EQ(vec1[0], vec2);
 }
 
 } // namespace StabVec
