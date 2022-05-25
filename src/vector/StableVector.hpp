@@ -9,50 +9,111 @@ namespace StabVec {
 
 template <typename T>
 class StableVector {
-private:
-    struct Iter {
-        Iter(T* pointer) : ptr(pointer)
+public:
+    struct Iterator {
+        using iterator_category = std::random_access_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = const T*;
+        using reference = T&;
+
+        Iterator(StableVector<T>* pointer, size_t i) : ptr(pointer), index(i)
         {
         }
 
-        T& operator*()
+        reference operator*()
         {
-            return ptr->elements;
+            return (*ptr)[index];
         }
 
-        T* operator->() const
+        pointer operator->() const
         {
-            return ptr->elements;
+            return (*ptr)[index];
         }
 
-        Iter& operator++()
+        Iterator& operator++()
         {
-            ptr = *this + 1;
+            ++index;
             return *this;
         }
 
-        Iter& operator++(int)
+        Iterator& operator++(int)
         {
-            Iter tmp = *this;
-            ++(*this);
+            Iterator tmp = *this;
+            ++index;
             return tmp;
         }
 
-        friend bool operator==(const Iter& lhs, const Iter& rhs)
+        Iterator& operator--()
         {
-            return lhs.ptr == rhs.ptr;
+            --index;
+            return *this;
         }
 
-        friend bool operator!=(const Iter& lhs, const Iter& rhs)
+        Iterator& operator--(int)
         {
-            return lhs.ptr != rhs.ptr;
+            Iterator tmp = *this;
+            --index;
+            return tmp;
+        }
+
+        Iterator& operator+=(size_t i)
+        {
+            index += i;
+            return *this;
+        }
+
+        Iterator operator+(size_t i)
+        {
+            Iterator tmp = *this;
+            tmp += i;
+            return tmp;
+        }
+
+        Iterator& operator-=(size_t i)
+        {
+            index -= i;
+            return *this;
+        }
+
+        Iterator operator-(size_t i)
+        {
+            Iterator tmp = *this;
+            tmp -= i;
+            return tmp;
+        }
+
+        friend bool operator==(const Iterator& lhs, const Iterator& rhs)
+        {
+            return lhs.index == rhs.index;
+        }
+
+        friend bool operator!=(const Iterator& lhs, const Iterator& rhs)
+        {
+            return lhs.index != rhs.index;
+        }
+
+        friend bool operator<(const Iterator& lhs, const Iterator& rhs)
+        {
+            return lhs.index < rhs.index;
+        }
+
+        friend bool operator>(const Iterator& lhs, const Iterator& rhs)
+        {
+            return lhs.index > rhs.index;
+        }
+
+        friend difference_type
+        operator-(const Iterator& lhs, const Iterator& rhs)
+        {
+            return lhs.index - rhs.index;
         }
 
     private:
-        T* ptr;
+        StableVector<T>* ptr;
+        size_t index;
     };
 
-public:
     StableVector() = default;
     StableVector(const StableVector&);
     StableVector(StableVector&&) noexcept;
@@ -84,26 +145,26 @@ public:
 
     T& operator[](size_t n)
     {
-        if (n <= size())
+        if (n < size())
             return elements[n];
         else
             throw std::out_of_range("Out of bounds");
     }
     const T& operator[](size_t n) const
     {
-        if (n <= size())
+        if (n < size())
             return elements[n];
         else
             throw std::out_of_range("Out of bounds");
     }
 
-    T* begin() const
+    Iterator begin()
     {
-        return elements;
+        return Iterator(this, 0);
     }
-    T* end() const
+    Iterator end()
     {
-        return first_free;
+        return Iterator(this, size());
     }
 
 private:
@@ -191,6 +252,51 @@ inline bool operator==(const StableVector<T>& lhs, const StableVector<T>& rhs)
     if (lhs.size() == rhs.size()) {
         for (size_t i = 0; i < lhs.size(); ++i)
             if (lhs[i] == rhs[i])
+                continue;
+            else
+                return false;
+    } else
+        return false;
+
+    return true;
+}
+
+template <typename T>
+inline bool operator!=(const StableVector<T>& lhs, const StableVector<T>& rhs)
+{
+    if (lhs.size() == rhs.size()) {
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] != rhs[i])
+                continue;
+            else
+                return false;
+    } else
+        return false;
+
+    return true;
+}
+
+template <typename T>
+inline bool operator<(const StableVector<T>& lhs, const StableVector<T>& rhs)
+{
+    if (lhs.size() == rhs.size()) {
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] < rhs[i])
+                continue;
+            else
+                return false;
+    } else
+        return false;
+
+    return true;
+}
+
+template <typename T>
+inline bool operator>(const StableVector<T>& lhs, const StableVector<T>& rhs)
+{
+    if (lhs.size() == rhs.size()) {
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] > rhs[i])
                 continue;
             else
                 return false;
