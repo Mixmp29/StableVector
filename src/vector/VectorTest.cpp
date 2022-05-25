@@ -81,6 +81,19 @@ TEST(TimeSuite, TestSort)
     EXPECT_EQ(expect, result);
 }
 
+TEST(TimeSuite, TestSort2)
+{
+    const int a = 6;
+    const int b = 2;
+    const int c = 1;
+    const int d = 0;
+    StableVector<int> result1 = {a, b, c, d};
+    StableVector<int> result2 = {d, c, b, a};
+    const StableVector<int> expect = {0, 1, 2, 6};
+    std::sort(result1.begin(), result2.end());
+    EXPECT_EQ(expect, result1);
+}
+
 TEST(TimeSuite, TestSwap)
 {
     const int a = 6;
@@ -115,7 +128,7 @@ TEST(TimeSuite, TestFind)
     const int b = 2;
     const int c = 1;
     const int d = 0;
-    StableVector<int> vec = {a, b, c, d};
+    const StableVector<int> vec = {a, b, c, d};
     const int expect = 6;
     auto result = std::find(vec.begin(), vec.end() - 1, expect);
     EXPECT_EQ(expect, *result);
@@ -139,7 +152,7 @@ TEST(TimeSuite, TestReserve)
     const int a = 1;
     const int b = 2;
     const int c = 3;
-    StableVector vec = {a, b, c};
+    StableVector<int> vec = {a, b, c};
     const size_t new_cap = 7;
     vec.reserve(new_cap);
     const size_t expect = 7;
@@ -152,7 +165,7 @@ TEST(TimeSuite, TestResize)
     const int a = 1;
     const int b = 2;
     const int c = 3;
-    StableVector vec = {a, b, c};
+    StableVector<int> vec = {a, b, c};
     const size_t new_size = 8;
     vec.resize(new_size);
     const size_t expect = 8;
@@ -166,7 +179,7 @@ TEST(TimeSuite, TestResizeSmaller)
     const int b = 2;
     const int c = 3;
     const int d = 4;
-    StableVector vec = {a, b, c, d};
+    StableVector<int> vec = {a, b, c, d};
     const size_t new_size = 2;
     vec.resize(new_size);
     const size_t expect = 2;
