@@ -224,7 +224,7 @@ inline StableVector<T>::StableVector(StableVector&& s) noexcept
     s.elements = s.first_free = s.cap = nullptr;
 }
 
-template <typename T> // TODO: переделать под push_back()
+template <typename T>
 inline StableVector<T>::StableVector(std::initializer_list<T> il)
     : elements(nullptr), first_free(nullptr), cap(nullptr)
 {
@@ -259,8 +259,7 @@ inline StableVector<T>& StableVector<T>::operator=(StableVector&& rhs) noexcept
 }
 
 template <typename T>
-inline StableVector<T>& StableVector<T>::operator=(
-        std::initializer_list<T> il) // TODO: переделать под push_back()
+inline StableVector<T>& StableVector<T>::operator=(std::initializer_list<T> il)
 {
     elements = nullptr;
     first_free = nullptr;
@@ -332,16 +331,14 @@ inline bool operator>(const StableVector<T>& lhs, const StableVector<T>& rhs)
 }
 
 template <typename T>
-inline StableVector<T>::~StableVector() noexcept // TODO: возможно поменять
-                                                 // освобождение
+inline StableVector<T>::~StableVector() noexcept
 {
     // delete[] elements;
     free();
 }
 
 template <typename T>
-inline void
-StableVector<T>::push_back(const T& s) // TODO: переделать push_back()
+inline void StableVector<T>::push_back(const T& s)
 {
     chk_n_alloc();
     new ((void*)first_free++) Node(s);
@@ -355,7 +352,7 @@ inline void StableVector<T>::push_back(T&& s)
 }
 
 template <typename T>
-inline void StableVector<T>::reserve(size_t n) // поменять Node
+inline void StableVector<T>::reserve(size_t n)
 {
     if (n > capacity()) {
         auto first = new Node[n];
@@ -387,12 +384,9 @@ inline void StableVector<T>::resize(size_t n, T val)
 }
 
 template <typename T>
-inline std::pair<
-        typename StableVector<T>::Node*,
-        typename StableVector<T>::Node*>
-StableVector<T>::alloc_n_copy(
-        const Node* b,
-        const Node* e) // поменять на Node в объявлении и в инициализации
+inline std::
+        pair<typename StableVector<T>::Node*, typename StableVector<T>::Node*>
+        StableVector<T>::alloc_n_copy(const Node* b, const Node* e)
 {
     auto data = new Node[e - b];
     return {data, std::uninitialized_copy(b, e, data)};
@@ -406,7 +400,7 @@ inline void StableVector<T>::free()
 }
 
 template <typename T>
-inline void StableVector<T>::reallocate() // Заменить на Node
+inline void StableVector<T>::reallocate()
 {
     auto newcapacity = size() ? 2 * size() : 2;
 
