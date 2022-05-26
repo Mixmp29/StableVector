@@ -9,14 +9,40 @@ namespace StabVec {
 
 template <typename T>
 class StableVector {
+private:
+    struct Node {
+        Node() = default;
+        Node(T val) : /* ptr(new T[1]),  */ value(val){};
+        /*         ~Node() noexcept
+                {
+                    delete ptr;
+                } */
+
+        // T* ptr = nullptr;
+        T value = T();
+    };
+
+    void chk_n_alloc()
+    {
+        if (first_free == cap)
+            reallocate();
+    }
+    std::pair<Node*, Node*> alloc_n_copy(const Node*, const Node*);
+    void free();
+    void reallocate();
+
+    Node* elements = nullptr;
+    Node* first_free = nullptr;
+    Node* cap = nullptr;
+
 public:
-    template <typename U>
+    template <typename U, typename G>
     struct GenericIterator {
         using iterator_category = std::random_access_iterator_tag;
         using difference_type = std::ptrdiff_t;
-        using value_type = U;
-        using pointer = U*;
-        using reference = U&;
+        using value_type = G;
+        using pointer = G*;
+        using reference = G&;
 
         GenericIterator(U* pointer, size_t i) : ptr(pointer), index(i)
         {
@@ -24,13 +50,12 @@ public:
 
         reference operator*()
         {
-            // std::cout << "OPERATOR * " << std::endl;
-            return (ptr)[index];
+            return (ptr)[index].value;
         }
 
         pointer operator->() const
         {
-            return (ptr)[index];
+            return (ptr)[index].value;
         }
 
         GenericIterator& operator++()
@@ -120,8 +145,8 @@ public:
         size_t index;
     };
 
-    using Iterator = GenericIterator<T>;
-    using ConstIterator = GenericIterator<const T>;
+    using Iterator = GenericIterator<StableVector<T>::Node, T>;
+    using ConstIterator = GenericIterator<const StableVector<T>::Node, const T>;
 
     StableVector() = default;
     StableVector(const StableVector&);
@@ -134,8 +159,6 @@ public:
 
     void push_back(const T&);
     void push_back(T&&);
-    template <class... Args>
-    void emplace_back(Args&&...);
     void reserve(size_t n);
     void resize(size_t n, T val = T());
 
@@ -155,14 +178,14 @@ public:
     T& operator[](size_t n)
     {
         if (n < size())
-            return elements[n];
+            return elements[n].value;
         else
             throw std::out_of_range("Out of bounds");
     }
     const T& operator[](size_t n) const
     {
         if (n < size())
-            return elements[n];
+            return elements[n].value;
         else
             throw std::out_of_range("Out of bounds");
     }
@@ -184,20 +207,6 @@ public:
     {
         return ConstIterator(elements, size());
     }
-
-private:
-    void chk_n_alloc()
-    {
-        if (first_free == cap)
-            reallocate();
-    }
-    std::pair<T*, T*> alloc_n_copy(const T*, const T*);
-    void free();
-    void reallocate();
-
-    T* elements = nullptr;
-    T* first_free = nullptr;
-    T* cap = nullptr;
 };
 
 template <typename T>
@@ -215,15 +224,13 @@ inline StableVector<T>::StableVector(StableVector&& s) noexcept
     s.elements = s.first_free = s.cap = nullptr;
 }
 
-template <typename T>
+template <typename T> // TODO: переделать под push_back()
 inline StableVector<T>::StableVector(std::initializer_list<T> il)
+    : elements(nullptr), first_free(nullptr), cap(nullptr)
 {
-    auto data = alloc_n_copy(il.begin(), il.end());
-
-    free();
-
-    elements = data.first;
-    first_free = cap = data.second;
+    for (auto& val : il) {
+        push_back(val);
+    }
 }
 
 template <typename T>
@@ -252,16 +259,16 @@ inline StableVector<T>& StableVector<T>::operator=(StableVector&& rhs) noexcept
 }
 
 template <typename T>
-inline StableVector<T>& StableVector<T>::operator=(std::initializer_list<T> il)
+inline StableVector<T>& StableVector<T>::operator=(
+        std::initializer_list<T> il) // TODO: переделать под push_back()
 {
-    auto data = alloc_n_copy(il.begin(), il.end());
+    elements = nullptr;
+    first_free = nullptr;
+    cap = nullptr;
 
-    free();
-
-    elements = data.first;
-    first_free = cap = data.second;
-
-    return *this;
+    for (auto& val : il) {
+        push_back(val);
+    }
 }
 
 template <typename T>
@@ -325,35 +332,38 @@ inline bool operator>(const StableVector<T>& lhs, const StableVector<T>& rhs)
 }
 
 template <typename T>
-inline StableVector<T>::~StableVector() noexcept
+inline StableVector<T>::~StableVector() noexcept // TODO: возможно поменять
+                                                 // освобождение
 {
+    // delete[] elements;
     free();
 }
 
 template <typename T>
-inline void StableVector<T>::push_back(const T& s)
+inline void
+StableVector<T>::push_back(const T& s) // TODO: переделать push_back()
 {
     chk_n_alloc();
-    new ((void*)first_free++) T(s);
+    new ((void*)first_free++) Node(s);
 }
 
 template <typename T>
 inline void StableVector<T>::push_back(T&& s)
 {
     chk_n_alloc();
-    new ((void*)first_free++) T(std::move(s));
+    new ((void*)first_free++) Node(std::move(s));
 }
 
 template <typename T>
-inline void StableVector<T>::reserve(size_t n)
+inline void StableVector<T>::reserve(size_t n) // поменять Node
 {
     if (n > capacity()) {
-        auto first = new T[n];
+        auto first = new Node[n];
         auto dest = first;
         auto elem = elements;
 
         for (size_t i = 0; i < size(); i++) {
-            new ((void*)dest++) T(std::move(*elem++));
+            new ((void*)dest++) Node(std::move(*elem++));
         }
 
         free();
@@ -377,30 +387,35 @@ inline void StableVector<T>::resize(size_t n, T val)
 }
 
 template <typename T>
-inline std::pair<T*, T*> StableVector<T>::alloc_n_copy(const T* b, const T* e)
+inline std::pair<
+        typename StableVector<T>::Node*,
+        typename StableVector<T>::Node*>
+StableVector<T>::alloc_n_copy(
+        const Node* b,
+        const Node* e) // поменять на Node в объявлении и в инициализации
 {
-    std::cout << "I'm in alloc_n_copy" << std::endl;
-    auto data = new T[e - b];
+    auto data = new Node[e - b];
     return {data, std::uninitialized_copy(b, e, data)};
 }
 
 template <typename T>
 inline void StableVector<T>::free()
 {
+    // delete elements;
     delete[] elements;
 }
 
 template <typename T>
-inline void StableVector<T>::reallocate()
+inline void StableVector<T>::reallocate() // Заменить на Node
 {
     auto newcapacity = size() ? 2 * size() : 2;
 
-    auto first = new T[newcapacity];
+    auto first = new Node[newcapacity];
     auto dest = first;
     auto elem = elements;
 
     for (size_t i = 0; i < size(); i++) {
-        new ((void*)dest++) T(std::move(*elem++));
+        new ((void*)dest++) Node(std::move(*elem++));
     }
 
     free();
