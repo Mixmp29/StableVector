@@ -24,6 +24,7 @@ public:
 
         reference operator*()
         {
+            // std::cout << "OPERATOR * " << std::endl;
             return (ptr)[index];
         }
 
@@ -202,7 +203,7 @@ private:
 template <typename T>
 inline StableVector<T>::StableVector(const StableVector& s)
 {
-    auto newdata = alloc_n_copy(s.begin(), s.end());
+    auto newdata = alloc_n_copy(s.elements, s.first_free);
     elements = newdata.first;
     first_free = cap = newdata.second;
 }
@@ -228,7 +229,7 @@ inline StableVector<T>::StableVector(std::initializer_list<T> il)
 template <typename T>
 inline StableVector<T>& StableVector<T>::operator=(const StableVector& rhs)
 {
-    auto data = alloc_n_copy(rhs.begin(), rhs.end());
+    auto data = alloc_n_copy(rhs.elements, rhs.first_free);
     free();
     elements = data.first;
     first_free = cap = data.second;
@@ -378,6 +379,7 @@ inline void StableVector<T>::resize(size_t n, T val)
 template <typename T>
 inline std::pair<T*, T*> StableVector<T>::alloc_n_copy(const T* b, const T* e)
 {
+    std::cout << "I'm in alloc_n_copy" << std::endl;
     auto data = new T[e - b];
     return {data, std::uninitialized_copy(b, e, data)};
 }
