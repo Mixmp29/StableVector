@@ -13,14 +13,8 @@ namespace StabVec {
 
 TEST(Vector, TestCopy)
 {
-    const StableVector<int> result = {1, 2, 3, 4, 5, 6, 7, 8};
-    const StableVector<int> expect(result);
-    for (auto i = result.begin(), j = expect.begin(); i < result.end();
-         ++i, ++j) {
-        std::cout << *i << " " << *j << std::endl;
-    }
-    std::cout << "Size: " << expect.size()
-              << " and Capacity: " << expect.capacity() << std::endl;
+    const StableVector<int> result = {1, 2, 3, 4, 5, 6, 7};
+    const StableVector<int>& expect(result);
     EXPECT_EQ(expect, result);
 }
 
@@ -35,7 +29,7 @@ TEST(Vector, TestSize)
 TEST(Vector, TestCpapcity)
 {
     const StableVector<int> vec = {1, 2, 3, 4, 5, 6};
-    const int expect = 6;
+    const int expect = 8;
     const int result = vec.capacity();
     EXPECT_EQ(expect, result);
 }
@@ -94,6 +88,15 @@ TEST(Vector, TestBeginEnd)
     EXPECT_EQ(expect, result);
 }
 
+TEST(Vector, TestPtr)
+{
+    StableVector<std::string> vec = {"test ", "string ", "here"};
+    const auto* expect = &vec[1];
+    vec.push_back("end");
+    const auto* result = &vec[1];
+    EXPECT_EQ(expect, result);
+}
+
 TEST(Vector, TestSort)
 {
     const int a = 6;
@@ -127,7 +130,6 @@ TEST(Vector, TestSwap)
     const int d = 0;
     StableVector<int> result = {a, b, c, d};
     const StableVector<int> expect = {6, 0, 1, 2};
-    std::cout << "size(): " << result.size() << std::endl;
     std::swap(result[1], result[3]);
     EXPECT_EQ(expect, result);
 }
@@ -142,7 +144,6 @@ TEST(Vector, TestFor)
     StableVector<int> expect;
     for (auto& i : result) {
         expect.push_back(i);
-        std::cout << i << std::endl;
     }
     EXPECT_EQ(expect, result);
 }
@@ -155,9 +156,8 @@ TEST(Vector, TestConstFor)
     const int d = 0;
     const StableVector<int> result = {a, b, c, d};
     StableVector<int> expect;
-    for (auto& i : result) {
+    for (const auto& i : result) {
         expect.push_back(i);
-        std::cout << i << std::endl;
     }
     EXPECT_EQ(expect, result);
 }
