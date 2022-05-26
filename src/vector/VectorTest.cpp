@@ -11,6 +11,19 @@
 
 namespace StabVec {
 
+TEST(Vector, TestCopy)
+{
+    const StableVector<int> result = {1, 2, 3, 4, 5, 6, 7, 8};
+    const StableVector<int> expect(result);
+    for (auto i = result.begin(), j = expect.begin(); i < result.end();
+         ++i, ++j) {
+        std::cout << *i << " " << *j << std::endl;
+    }
+    std::cout << "Size: " << expect.size()
+              << " and Capacity: " << expect.capacity() << std::endl;
+    EXPECT_EQ(expect, result);
+}
+
 TEST(Vector, TestSize)
 {
     const StableVector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8};
@@ -134,7 +147,7 @@ TEST(Vector, TestFor)
     EXPECT_EQ(expect, result);
 }
 
-TEST(Vector, ConstTestFor)
+TEST(Vector, TestConstFor)
 {
     const int a = 6;
     const int b = 2;
