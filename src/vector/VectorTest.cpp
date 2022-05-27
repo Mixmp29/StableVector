@@ -13,7 +13,7 @@ namespace StabVec {
 
 TEST(Vector, TestCopy)
 {
-    const StableVector<int> result = {1, 2, 3, 4, 5, 6, 7};
+    const StableVector<int> result = {1, 2, 3, 4, 5, 6, 7, 8};
     const StableVector<int>& expect(result);
     EXPECT_EQ(expect, result);
 }
@@ -88,7 +88,7 @@ TEST(Vector, TestBeginEnd)
     EXPECT_EQ(expect, result);
 }
 
-TEST(Vector, TestPtr)
+TEST(Vector, TestPtr) // #9
 {
     StableVector<std::string> vec = {"test ", "string ", "here"};
     const auto* expect = &vec[1];

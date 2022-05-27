@@ -12,13 +12,7 @@ class StableVector {
 private:
     struct Node {
         Node() = default;
-        Node(T val) : /* ptr(new T[1]),  */ value(val){};
-        /*         ~Node() noexcept
-                {
-                    delete ptr;
-                } */
-
-        // T* ptr = nullptr;
+        Node(T val) : value(val){};
         T value = T();
     };
 
