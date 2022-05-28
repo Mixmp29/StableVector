@@ -88,7 +88,7 @@ TEST(Vector, TestBeginEnd)
     EXPECT_EQ(expect, result);
 }
 
-TEST(Vector, TestPtr) // #9
+TEST(Vector, TestPtr)
 {
     StableVector<std::string> vec = {"test ", "string ", "here"};
     const auto* expect = &vec[1];
