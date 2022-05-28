@@ -327,7 +327,6 @@ inline bool operator>(const StableVector<T>& lhs, const StableVector<T>& rhs)
 template <typename T>
 inline StableVector<T>::~StableVector() noexcept
 {
-    // delete[] elements;
     free();
 }
 
@@ -389,7 +388,6 @@ inline std::
 template <typename T>
 inline void StableVector<T>::free()
 {
-    // delete elements;
     delete[] elements;
 }
 
